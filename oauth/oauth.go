@@ -14,10 +14,10 @@ import (
 )
 
 const (
-	headerXPublic    = "X-Public"
-	headerXClientID  = "X-Client-Id"
-	headerXCallerID  = "X-Caller-Id"
-	paramAccessToken = "access_token"
+	headerXPublic       = "X-Public"
+	headerXClientID     = "X-Client-Id"
+	headerXCallerID     = "X-Caller-Id"
+	headerAuthorization = "Authorization"
 )
 
 var (
@@ -69,7 +69,7 @@ func AuthenticateRequest(request *http.Request) rest_errors.RestErr {
 
 	cleanRequest(request)
 
-	accessTokenId := strings.TrimSpace(request.URL.Query().Get(paramAccessToken))
+	accessTokenId := strings.TrimSpace(strings.Split(request.Header.Get(headerAuthorization), " ")[1])
 	if accessTokenId == "" {
 		return nil
 	}
